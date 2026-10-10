@@ -2,6 +2,8 @@
 **/obj/
 **/.dart_tool/
 **/build/
+.docx-render/
+.pptx-build/
 **/uploads/*
 !**/uploads/.gitkeep
 .env
