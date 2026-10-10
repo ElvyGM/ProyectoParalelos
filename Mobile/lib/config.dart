@@ -1,5 +1,5 @@
 class AppConfig {
-  // Emulador Android: 10.0.2.2. Dispositivo real: use la IP de su PC.
+  // API desplegada en GCP. Puede reemplazarse al ejecutar con --dart-define.
   static const apiUrl = String.fromEnvironment('API_URL',
-      defaultValue: 'http://10.0.2.2:8080/api');
+      defaultValue: 'https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api');
 }

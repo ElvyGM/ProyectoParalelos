@@ -19,9 +19,11 @@ No se incluyen credenciales reales. Cloud SQL genera costos, por lo que debe rev
 3. Ejecute `docker compose up --build -d`.
 4. Compruebe `http://localhost:8080/health` y abra `http://localhost:8080/swagger`.
 5. En `Mobile`, si las carpetas nativas no existen todavía, ejecute una sola vez `flutter create --platforms=android,ios .`.
-6. Ejecute `flutter pub get` y luego `flutter run --dart-define=API_URL=http://10.0.2.2:8080/api`.
+6. Ejecute `flutter pub get` y luego `flutter run`. La aplicación consume por defecto `https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api`.
 
 Para un teléfono físico, reemplace `10.0.2.2` por la IP local de la PC y permita el puerto 8080 en el firewall.
+
+La comprobación pública de salud está disponible en `https://userflow-gateway-dy9hl9mi.uc.gateway.dev/health`.
 
 ## Entrega
 

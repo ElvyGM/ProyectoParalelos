@@ -35,19 +35,19 @@ La autenticación usa tokens temporales OIDC mediante Workload Identity Federati
 
 ## Configurar Flutter con la URL cloud
 
-Copiar `api_gateway_url` del output de Terraform y agregar `/api`:
+La URL generada para este proyecto es:
 
 ```bash
-flutter run --dart-define=API_URL=https://HOST_DEL_GATEWAY/api
+flutter run --dart-define=API_URL=https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api
 ```
 
 Para generar el APK conectado a GCP:
 
 ```bash
-flutter build apk --release --dart-define=API_URL=https://HOST_DEL_GATEWAY/api
+flutter build apk --release --dart-define=API_URL=https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api
 ```
 
-No hay que modificar `config.dart`: `String.fromEnvironment` selecciona la URL al compilar.
+`config.dart` ya contiene esta URL como valor predeterminado. `String.fromEnvironment` permite sustituirla al compilar si cambia el despliegue.
 
 ## Evidencias para el profesor
 

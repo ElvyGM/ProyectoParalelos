@@ -9,10 +9,16 @@ flutter doctor
 flutter create --platforms=android,ios .
 flutter pub get
 flutter test
-flutter run --dart-define=API_URL=http://10.0.2.2:8080/api
+flutter run
 ```
 
-El comando `flutter create` conserva `lib/` y genera las carpetas nativas. En Android Emulator, `10.0.2.2` apunta a la PC. En teléfono físico use, por ejemplo, `http://192.168.1.20:8080/api`.
+La aplicación usa por defecto la API desplegada en GCP:
+
+```text
+https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api
+```
+
+Para probar el backend local en Android Emulator ejecute `flutter run --dart-define=API_URL=http://10.0.2.2:8080/api`. En un teléfono físico reemplace `10.0.2.2` por la IP local de la PC.
 
 ## Pantallas
 
