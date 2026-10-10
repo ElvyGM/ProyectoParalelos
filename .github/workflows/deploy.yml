@@ -50,6 +50,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Enable Terraform bootstrap APIs
+        run: |
+          gcloud services enable \
+            cloudresourcemanager.googleapis.com \
+            serviceusage.googleapis.com \
+            --project="${PROJECT_ID}"
+
       - name: Create remote state bucket if missing
         run: |
           gcloud storage buckets describe "gs://${PROJECT_ID}-terraform-state" >/dev/null 2>&1 || \
