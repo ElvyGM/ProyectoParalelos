@@ -1,0 +1,70 @@
+swagger: "2.0"
+info:
+  title: UserFlow API Gateway
+  version: "1.0.0"
+schemes: [https]
+produces: [application/json]
+x-google-backend:
+  address: ${backend_url}
+  disable_auth: true
+paths:
+  /health:
+    get:
+      operationId: health
+      responses: { "200": { description: OK } }
+  /api/auth/register:
+    post:
+      operationId: register
+      responses: { "200": { description: OK } }
+  /api/auth/login:
+    post:
+      operationId: login
+      responses: { "200": { description: OK } }
+  /api/users:
+    get:
+      operationId: listUsers
+      responses: { "200": { description: OK } }
+    post:
+      operationId: createUser
+      responses: { "200": { description: OK } }
+  /api/users/{id}:
+    parameters:
+      - { name: id, in: path, required: true, type: integer, format: int32 }
+    get:
+      operationId: getUser
+      responses: { "200": { description: OK } }
+    put:
+      operationId: updateUser
+      responses: { "200": { description: OK } }
+    delete:
+      operationId: deleteUser
+      responses: { "204": { description: Deleted } }
+  /api/profile:
+    get:
+      operationId: profile
+      responses: { "200": { description: OK } }
+  /api/stats:
+    get:
+      operationId: stats
+      responses: { "200": { description: OK } }
+  /api/notifications:
+    get:
+      operationId: notifications
+      responses: { "200": { description: OK } }
+  /api/files:
+    get:
+      operationId: files
+      responses: { "200": { description: OK } }
+  /api/upload:
+    post:
+      operationId: upload
+      consumes: [multipart/form-data]
+      parameters:
+        - { name: file, in: formData, required: true, type: file }
+      responses: { "201": { description: Created } }
+  /api/upload/{id}:
+    parameters:
+      - { name: id, in: path, required: true, type: integer, format: int32 }
+    delete:
+      operationId: deleteUpload
+      responses: { "204": { description: Deleted } }

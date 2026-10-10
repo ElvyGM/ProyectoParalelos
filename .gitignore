@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+**/.dart_tool/
+**/build/
+**/uploads/*
+!**/uploads/.gitkeep
+.env
+*.rar
+gha-creds-*.json
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform/*.auto.tfvars.json
