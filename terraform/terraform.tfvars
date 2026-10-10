@@ -1,8 +1,0 @@
-# Ejemplo sin secretos. Está comentado para que GitHub Actions pueda usar TF_VAR_*.
-# project_id            = "TU_PROYECTO_GCP"
-# region                = "us-central1"
-# artifact_registry     = "userflow"
-# cloud_run_service     = "userflow-api"
-# image_tag             = "latest"
-# jwt_secret            = "NO_COLOCAR_SECRETOS_REALES_AQUI"
-# database_url          = ""
