@@ -12,7 +12,8 @@ En `Settings > Secrets and variables > Actions`, crear:
 
 - `GCP_PROJECT_ID`: ID real del proyecto.
 - `GCP_REGION`: por ejemplo `us-central1`.
-- `GCP_SA_KEY`: JSON completo de la cuenta CI/CD.
+- `GCP_WORKLOAD_IDENTITY_PROVIDER`: identificador completo del proveedor federado de GitHub.
+- `GCP_SERVICE_ACCOUNT`: correo de la cuenta de servicio que GitHub puede asumir.
 - `JWT_SECRET`: texto aleatorio de 32 caracteres o más.
 - `DATABASE_URL`: conexión PostgreSQL externa; si se deja vacía, Terraform usa la instancia Cloud SQL creada.
 - `ARTIFACT_REGISTRY` (opcional): `userflow`.
@@ -23,12 +24,14 @@ No subir claves JSON, contraseñas ni archivos `.auto.tfvars.json` al repositori
 ## Preparación inicial
 
 1. Crear un proyecto GCP con facturación habilitada.
-2. Crear una cuenta de servicio de CI/CD y descargar una clave JSON.
-3. Para una práctica académica, conceder permisos suficientes para administrar Run, SQL, API Gateway, Artifact Registry, Build, IAM, Secret Manager, Storage y Logging. En producción se deben reducir al mínimo.
+2. Crear una cuenta de servicio de CI/CD y configurar Workload Identity Federation para GitHub. No se descarga una clave JSON permanente.
+3. Conceder a la cuenta de servicio permisos suficientes para administrar Run, SQL, API Gateway, Artifact Registry, Build, IAM, Secret Manager, Storage y Logging. En producción se deben reducir al mínimo.
 4. Crear los Secrets anteriores en GitHub.
 5. Subir el repositorio y hacer `push` a `main`.
 
 El workflow crea el bucket remoto `${GCP_PROJECT_ID}-terraform-state`, habilita APIs y crea primero Artifact Registry. Luego `gcloud builds submit` construye/publica la imagen; finalmente ejecuta `terraform plan`, `terraform apply -auto-approve` y `gcloud run deploy`.
+
+La autenticación usa tokens temporales OIDC mediante Workload Identity Federation. La política del proyecto bloquea correctamente la creación de claves JSON de cuentas de servicio.
 
 ## Configurar Flutter con la URL cloud
 
