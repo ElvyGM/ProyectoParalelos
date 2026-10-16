@@ -49,3 +49,51 @@ variable "jwt_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "notification_service_name" {
+  description = "Nombre de la Cloud Run que procesa notificaciones."
+  type        = string
+  default     = "notification-cloud-run"
+}
+
+variable "notification_topic_name" {
+  description = "Nombre del tema Pub/Sub."
+  type        = string
+  default     = "userflow-notifications"
+}
+
+variable "notification_subscription_name" {
+  description = "Nombre de la suscripción push."
+  type        = string
+  default     = "userflow-notifications-push"
+}
+
+variable "notification_image_tag" {
+  description = "Etiqueta de la imagen Docker del servicio de notificaciones."
+  type        = string
+  default     = "latest"
+}
+
+variable "smtp_host" {
+  description = "Servidor SMTP utilizado para enviar correos."
+  type        = string
+  default     = "smtp.gmail.com"
+}
+
+variable "smtp_port" {
+  description = "Puerto SMTP."
+  type        = number
+  default     = 587
+}
+
+variable "smtp_user" {
+  description = "Correo utilizado para enviar notificaciones."
+  type        = string
+  sensitive   = true
+}
+
+variable "smtp_password" {
+  description = "Contrasena de aplicacion del correo SMTP."
+  type        = string
+  sensitive   = true
+}

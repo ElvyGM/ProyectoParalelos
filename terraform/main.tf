@@ -17,7 +17,8 @@ resource "google_project_service" "apis" {
     "servicemanagement.googleapis.com",
     "servicecontrol.googleapis.com",
     "sqladmin.googleapis.com",
-    "storage.googleapis.com"
+    "storage.googleapis.com",
+    "pubsub.googleapis.com"
   ])
   project            = var.project_id
   service            = each.value
@@ -215,6 +216,15 @@ resource "google_cloud_run_v2_service" "api" {
         name       = "cloudsql"
         mount_path = "/cloudsql"
       }
+      env {
+  name  = "GCP_PROJECT_ID"
+  value = var.project_id
+}
+
+env {
+  name  = "PUBSUB_TOPIC_ID"
+  value = google_pubsub_topic.notifications.name
+}
     }
     volumes {
       name = "cloudsql"
