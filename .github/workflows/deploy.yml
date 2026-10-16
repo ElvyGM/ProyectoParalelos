@@ -112,7 +112,10 @@ jobs:
           TF_VAR_database_url: ${{ secrets.DATABASE_URL }}
           TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
           TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
-        run: terraform plan -out=tfplan
+        run: |
+          # Recupera un Cloud Run marcado después de un apply interrumpido.
+          terraform untaint google_cloud_run_v2_service.notification || true
+          terraform plan -out=tfplan
 
       - name: Terraform apply
         working-directory: terraform
