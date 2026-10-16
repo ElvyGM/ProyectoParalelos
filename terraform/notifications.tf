@@ -90,7 +90,7 @@ resource "google_cloud_run_v2_service" "notification" {
         value_source {
           secret_key_ref {
             secret  = google_secret_manager_secret.smtp_user.secret_id
-            version = "latest"
+            version = google_secret_manager_secret_version.smtp_user.version
           }
         }
       }
@@ -99,7 +99,7 @@ resource "google_cloud_run_v2_service" "notification" {
         value_source {
           secret_key_ref {
             secret  = google_secret_manager_secret.smtp_password.secret_id
-            version = "latest"
+            version = google_secret_manager_secret_version.smtp_password.version
           }
         }
       }
