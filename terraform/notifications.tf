@@ -48,7 +48,11 @@ resource "google_secret_manager_secret_version" "smtp_password" {
 }
 
 resource "google_secret_manager_secret_iam_member" "smtp_access" {
-  for_each  = toset([google_secret_manager_secret.smtp_user.id, google_secret_manager_secret.smtp_password.id])
+  # Las claves son fijas para que Terraform pueda calcular el for_each en plan.
+  for_each = {
+    user     = google_secret_manager_secret.smtp_user.id
+    password = google_secret_manager_secret.smtp_password.id
+  }
   secret_id = each.value
   role      = "roles/secretmanager.secretAccessor"
   member    = "serviceAccount:${google_service_account.notification.email}"
