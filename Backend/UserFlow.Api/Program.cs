@@ -35,6 +35,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(databaseUrl));
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<FileStorageService>();
+builder.Services.AddSingleton<NotificationPublisher>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

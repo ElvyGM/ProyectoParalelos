@@ -26,5 +26,6 @@ Para probar el backend local en Android Emulator ejecute `flutter run --dart-def
 - Dashboard: cinco servicios independientes cargados con `Future.wait()`.
 - Usuarios: listar, detalle, crear, editar y eliminar.
 - Concurrencia: seleccionar 2–5 archivos y medir la misma subida secuencial y concurrente.
+- Correo: publicar una solicitud que viaja por la API, Pub/Sub y el Cloud Run de notificaciones.
 
 Para una aplicación de producción se recomienda cambiar `SharedPreferences` por almacenamiento seguro del sistema (`flutter_secure_storage`). Se deja sencillo para explicar cada capa en clase.

@@ -51,6 +51,10 @@ paths:
     get:
       operationId: notifications
       responses: { "200": { description: OK } }
+  /api/notifications/send:
+    post:
+      operationId: sendNotification
+      responses: { "202": { description: Accepted } }
   /api/files:
     get:
       operationId: files

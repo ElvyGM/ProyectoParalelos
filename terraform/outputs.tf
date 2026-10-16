@@ -19,3 +19,11 @@ output "cloud_sql_connection_name" {
 output "uploads_bucket" {
   value = google_storage_bucket.uploads.name
 }
+
+output "notification_cloud_run_url" {
+  value = google_cloud_run_v2_service.notification.uri
+}
+
+output "notification_topic" {
+  value = google_pubsub_topic.notifications.name
+}

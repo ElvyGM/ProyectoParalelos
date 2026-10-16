@@ -217,14 +217,14 @@ resource "google_cloud_run_v2_service" "api" {
         mount_path = "/cloudsql"
       }
       env {
-  name  = "GCP_PROJECT_ID"
-  value = var.project_id
-}
+        name  = "GCP_PROJECT_ID"
+        value = var.project_id
+      }
 
-env {
-  name  = "PUBSUB_TOPIC_ID"
-  value = google_pubsub_topic.notifications.name
-}
+      env {
+        name  = "PUBSUB_TOPIC_ID"
+        value = google_pubsub_topic.notifications.name
+      }
     }
     volumes {
       name = "cloudsql"

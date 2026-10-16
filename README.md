@@ -4,11 +4,13 @@
 **Matrícula:** 1222572  
 **Mobile:** Flutter/Dart · **Backend:** ASP.NET Core Web API/C# · **BD:** PostgreSQL
 
-UserFlow administra usuarios y documentos. Incluye registro, login JWT, BCrypt, CRUD, archivos, MVVM, dashboard concurrente y comparación medible de subida secuencial/concurrente.
+UserFlow administra usuarios y documentos. Incluye registro, login JWT, BCrypt, CRUD, archivos, MVVM, dashboard concurrente, comparación medible de subida secuencial/concurrente y correos desacoplados con Pub/Sub.
 
 ## Despliegue serverless en GCP
 
-La segunda etapa incluye `terraform/` para Cloud Run, API Gateway, Cloud SQL, Artifact Registry, IAM, Secret Manager, Cloud Logging y Storage; `.github/workflows/deploy.yml` para CI/CD; y `cloudbuild.yaml` para construir/publicar la imagen Docker. Las instrucciones y evidencias están en `Documentacion/06-Despliegue-GCP.md`.
+Terraform crea Cloud Run, API Gateway, Cloud SQL, Artifact Registry, IAM, Secret Manager, Cloud Logging, Storage y Pub/Sub. El pipeline construye dos imágenes: la API principal y `notification-cloud-run`.
+
+Flujo de correo: `Flutter → API → Pub/Sub → notification-cloud-run → SMTP`.
 
 No se incluyen credenciales reales. Cloud SQL genera costos, por lo que debe revisarse el plan antes de aplicar o destruir infraestructura.
 
@@ -20,6 +22,8 @@ No se incluyen credenciales reales. Cloud SQL genera costos, por lo que debe rev
 4. Compruebe `http://localhost:8080/health` y abra `http://localhost:8080/swagger`.
 5. En `Mobile`, si las carpetas nativas no existen todavía, ejecute una sola vez `flutter create --platforms=android,ios .`.
 6. Ejecute `flutter pub get` y luego `flutter run`. La aplicación consume por defecto `https://userflow-gateway-dy9hl9mi.uc.gateway.dev/api`.
+
+Para desplegar la etapa de correos agregue en GitHub los secretos `SMTP_USER` y `SMTP_PASSWORD`. Para Gmail, `SMTP_PASSWORD` debe ser una contraseña de aplicación, no la contraseña normal.
 
 Para un teléfono físico, reemplace `10.0.2.2` por la IP local de la PC y permita el puerto 8080 en el firewall.
 

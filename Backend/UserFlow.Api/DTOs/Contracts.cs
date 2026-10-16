@@ -7,6 +7,7 @@ public record UserUpdateDto([Required, MaxLength(80)] string Nombre, [Required, 
 public record UserResponse(int Id, string Nombre, string Apellido, string Email, string? Foto, DateTime CreatedAt);
 public record AuthResponse(string Token, DateTime ExpiresAt, UserResponse User);
 public record FileResponse(int Id, string Filename, string OriginalName, string ContentType, long Size, string Url, int UserId, DateTime CreatedAt);
+public record NotificationRequest([Required, EmailAddress] string Email, [Required] string Subject, [Required] string Message);
 public static class DtoMappings
 {
     public static UserResponse ToResponse(this Models.User x) => new(x.Id, x.Nombre, x.Apellido, x.Email, x.Foto, x.CreatedAt);

@@ -6,3 +6,5 @@
 # image_tag             = "latest"
 # jwt_secret            = "NO_COLOCAR_SECRETOS_REALES_AQUI"
 # database_url          = ""
+# smtp_user             = "correo@gmail.com"
+# smtp_password         = "CONTRASENA_DE_APLICACION"

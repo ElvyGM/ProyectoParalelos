@@ -5,6 +5,7 @@ import 'dashboard_screen.dart';
 import 'users_screen.dart';
 import 'uploads_screen.dart';
 import 'login_screen.dart';
+import 'notification_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
-  final pages = const [DashboardScreen(), UsersScreen(), UploadsScreen()];
+  final pages = const [
+    DashboardScreen(),
+    UsersScreen(),
+    UploadsScreen(),
+    NotificationScreen()
+  ];
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(title: const Text('UserFlow'), actions: [
@@ -40,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icon(Icons.dashboard), label: 'Dashboard'),
             NavigationDestination(icon: Icon(Icons.people), label: 'Usuarios'),
             NavigationDestination(
-                icon: Icon(Icons.speed), label: 'Concurrencia')
+                icon: Icon(Icons.speed), label: 'Concurrencia'),
+            NavigationDestination(icon: Icon(Icons.email), label: 'Correo')
           ]));
 }

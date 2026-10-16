@@ -178,3 +178,21 @@ class UploadViewModel extends BaseViewModel {
     }
   }
 }
+
+class NotificationViewModel extends BaseViewModel {
+  final NotificationRepository repo;
+  NotificationViewModel(this.repo);
+
+  Future<bool> send(String email, String subject, String message) async {
+    begin();
+    try {
+      await repo.send(email, subject, message);
+      return true;
+    } catch (e) {
+      fail(e);
+      return false;
+    } finally {
+      end();
+    }
+  }
+}

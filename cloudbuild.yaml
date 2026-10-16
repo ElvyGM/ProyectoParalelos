@@ -1,24 +1,37 @@
 substitutions:
   _REGION: us-central1
   _REPOSITORY: userflow
-  _IMAGE: userflow-api
 
 steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
       - -t
-      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}:latest"
+      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/userflow-api:latest"
       - Backend/UserFlow.Api
 
   - name: gcr.io/cloud-builders/docker
     args:
       - push
       - --all-tags
-      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}"
+      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/userflow-api"
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/notification-cloud-run:latest"
+      - Backend/UserFlow.Notifications
+
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - --all-tags
+      - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/notification-cloud-run"
 
 images:
-  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/${_IMAGE}:latest"
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/userflow-api:latest"
+  - "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/notification-cloud-run:latest"
 
 options:
   logging: CLOUD_LOGGING_ONLY

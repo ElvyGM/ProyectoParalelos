@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="UserFlow.Api/UserFlow.Api.csproj" />
+  <Project Path="UserFlow.Notifications/UserFlow.Notifications.csproj" />
 </Solution>

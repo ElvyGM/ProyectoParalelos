@@ -52,3 +52,13 @@ class FileRepository {
       FileModel.fromJson(await api.upload('/upload', path));
   Future<void> delete(int id) => api.delete('/upload/$id');
 }
+
+class NotificationRepository {
+  final ApiService api;
+  NotificationRepository(this.api);
+
+  Future<void> send(String email, String subject, String message) async {
+    await api.post('/notifications/send',
+        {'email': email, 'subject': subject, 'message': message});
+  }
+}

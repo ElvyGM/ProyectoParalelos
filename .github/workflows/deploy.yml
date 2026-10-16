@@ -69,6 +69,8 @@ jobs:
           TF_VAR_region: ${{ secrets.GCP_REGION }}
           TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
           TF_VAR_database_url: ${{ secrets.DATABASE_URL }}
+          TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+          TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
         run: |
           terraform init -backend-config="bucket=${PROJECT_ID}-terraform-state" -backend-config="prefix=userflow"
           terraform fmt -check
@@ -82,6 +84,8 @@ jobs:
           TF_VAR_artifact_registry: ${{ secrets.ARTIFACT_REGISTRY || 'userflow' }}
           TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
           TF_VAR_database_url: ${{ secrets.DATABASE_URL }}
+          TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+          TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
         run: |
           terraform apply -auto-approve \
             -target='google_project_service.apis' \
@@ -94,7 +98,7 @@ jobs:
       - name: Docker build and push with Cloud Build
         run: |
           gcloud builds submit . --config=cloudbuild.yaml \
-            --substitutions=_REGION="${REGION}",_REPOSITORY="${REPOSITORY}",_IMAGE=userflow-api \
+            --substitutions=_REGION="${REGION}",_REPOSITORY="${REPOSITORY}" \
             --service-account="projects/${PROJECT_ID}/serviceAccounts/userflow-cloud-build@${PROJECT_ID}.iam.gserviceaccount.com"
 
       - name: Terraform plan
@@ -106,6 +110,8 @@ jobs:
           TF_VAR_cloud_run_service: ${{ secrets.CLOUD_RUN_SERVICE || 'userflow-api' }}
           TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
           TF_VAR_database_url: ${{ secrets.DATABASE_URL }}
+          TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+          TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
         run: terraform plan -out=tfplan
 
       - name: Terraform apply
@@ -117,6 +123,8 @@ jobs:
           TF_VAR_cloud_run_service: ${{ secrets.CLOUD_RUN_SERVICE || 'userflow-api' }}
           TF_VAR_jwt_secret: ${{ secrets.JWT_SECRET }}
           TF_VAR_database_url: ${{ secrets.DATABASE_URL }}
+          TF_VAR_smtp_user: ${{ secrets.SMTP_USER }}
+          TF_VAR_smtp_password: ${{ secrets.SMTP_PASSWORD }}
         run: terraform apply -auto-approve tfplan
 
       - name: Deploy latest image to Cloud Run

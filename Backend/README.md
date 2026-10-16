@@ -1,6 +1,9 @@
 # Backend UserFlow
 
-API REST en ASP.NET Core 10 con PostgreSQL, Entity Framework Core, JWT y BCrypt.
+Solución ASP.NET Core 10 con dos servicios pequeños:
+
+- `UserFlow.Api`: PostgreSQL, Entity Framework Core, JWT, BCrypt, CRUD, archivos y publicación en Pub/Sub.
+- `UserFlow.Notifications`: recibe el push de Pub/Sub, envía por SMTP y escribe el resultado en Cloud Logging.
 
 ## Ejecutar con Docker
 
@@ -18,6 +21,7 @@ Swagger: `http://localhost:8080/swagger` · Salud: `http://localhost:8080/health
 2. Copie `token` de la respuesta.
 3. En Swagger use **Authorize** e introduzca `Bearer TOKEN` (si la interfaz solicita el valor completo).
 4. Pruebe `GET /api/users`, CRUD y `POST /api/upload`.
+5. En GCP pruebe `POST /api/notifications/send` con `email`, `subject` y `message`.
 
 ## Seguridad
 

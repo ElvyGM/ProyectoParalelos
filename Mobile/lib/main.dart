@@ -9,11 +9,14 @@ void main() {
   final api = ApiService();
   final users = UserRepository(api);
   final files = FileRepository(api);
+  final notifications = NotificationRepository(api);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AuthViewModel(AuthRepository(api))),
     ChangeNotifierProvider(create: (_) => UsersViewModel(users)),
     ChangeNotifierProvider(create: (_) => DashboardViewModel(users, files)),
     ChangeNotifierProvider(create: (_) => UploadViewModel(files)),
+    ChangeNotifierProvider(
+        create: (_) => NotificationViewModel(notifications)),
   ], child: const UserFlowApp()));
 }
 
