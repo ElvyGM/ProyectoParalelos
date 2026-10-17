@@ -135,6 +135,9 @@ jobs:
           gcloud run deploy "${SERVICE}" \
             --image="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/userflow-api:latest" \
             --region="${REGION}" --quiet
+          gcloud run deploy "notification-cloud-run" \
+            --image="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notification-cloud-run:latest" \
+            --region="${REGION}" --quiet
 
       - name: Show deployment URLs
         working-directory: terraform
