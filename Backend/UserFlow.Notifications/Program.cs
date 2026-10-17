@@ -1,7 +1,8 @@
-using System.Net;
-using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
@@ -23,13 +24,23 @@ app.MapPost("/pubsub/push", async (PubSubEnvelope envelope, IConfiguration confi
         // SMTP necesita únicamente los 16 caracteres.
         var smtpPassword = string.Concat((config["SMTP_PASSWORD"] ?? "")
             .Where(c => !char.IsWhiteSpace(c)));
-        using var smtp = new SmtpClient(config["SMTP_HOST"], int.Parse(config["SMTP_PORT"] ?? "587"))
-        {
-            EnableSsl = true,
-            Credentials = new NetworkCredential(config["SMTP_USER"], smtpPassword)
-        };
-        using var mail = new MailMessage(config["SMTP_USER"]!, email.Email, email.Subject, email.Message);
-        await smtp.SendMailAsync(mail);
+        var smtpUser = config["SMTP_USER"]
+            ?? throw new InvalidOperationException("Falta SMTP_USER.");
+
+        var mail = new MimeMessage();
+        mail.From.Add(MailboxAddress.Parse(smtpUser));
+        mail.To.Add(MailboxAddress.Parse(email.Email));
+        mail.Subject = email.Subject;
+        mail.Body = new TextPart("plain") { Text = email.Message };
+
+        using var smtp = new SmtpClient();
+        await smtp.ConnectAsync(
+            config["SMTP_HOST"] ?? "smtp.gmail.com",
+            int.Parse(config["SMTP_PORT"] ?? "587"),
+            SecureSocketOptions.StartTls);
+        await smtp.AuthenticateAsync(smtpUser, smtpPassword);
+        await smtp.SendAsync(mail);
+        await smtp.DisconnectAsync(true);
         log.LogInformation("Correo {MessageId} enviado a {Email}", envelope.Message.MessageId, email.Email);
         return Results.NoContent();
     }
