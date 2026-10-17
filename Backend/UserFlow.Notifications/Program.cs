@@ -19,10 +19,14 @@ app.MapPost("/pubsub/push", async (PubSubEnvelope envelope, IConfiguration confi
             PropertyNameCaseInsensitive = true
         }) ?? throw new InvalidOperationException("Mensaje vacío.");
 
+        // Google muestra las contraseñas de aplicación en grupos con espacios.
+        // SMTP necesita únicamente los 16 caracteres.
+        var smtpPassword = string.Concat((config["SMTP_PASSWORD"] ?? "")
+            .Where(c => !char.IsWhiteSpace(c)));
         using var smtp = new SmtpClient(config["SMTP_HOST"], int.Parse(config["SMTP_PORT"] ?? "587"))
         {
             EnableSsl = true,
-            Credentials = new NetworkCredential(config["SMTP_USER"], config["SMTP_PASSWORD"])
+            Credentials = new NetworkCredential(config["SMTP_USER"], smtpPassword)
         };
         using var mail = new MailMessage(config["SMTP_USER"]!, email.Email, email.Subject, email.Message);
         await smtp.SendMailAsync(mail);
